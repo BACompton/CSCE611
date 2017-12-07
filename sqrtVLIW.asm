@@ -2,8 +2,8 @@
 #4 guess, value
 #5 step
 
-# Proj 5 time: 44400 ns
-# Proj 6 VSIM: 34000 ns
+# Proj 5 time: 48000 ns
+# Proj 6 VSIM: 34700 ns
 	add $11, $30, $zero
 	add $4, $0, $zero
         
@@ -24,11 +24,20 @@ begin:  	mult $4, $4             #algorithm
         	
 		add $6, $8, $9          #x^2
 		addi $25, $0, 25000        	
-
-		sub $6, $6, $11          #subtract
-        	addi $10, $0, 10
 		
-		beq $6, $zero, stop     #if equal to zero
+		bgez $11, subtract
+		addi $10, $0, 10		
+		
+		srl $16, $6, 1
+		srl $12, $11, 1
+
+		j if
+		sub $6, $16, $12
+
+subtract:	sub $6, $6, $11          #subtract
+        	nop
+		
+if:		beq $6, $zero, stop     #if equal to zero
         	sll $25, $25, 2
         	
 		bgez $6, ifg

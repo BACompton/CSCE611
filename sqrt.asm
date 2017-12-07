@@ -2,7 +2,7 @@
 #4 guess, value
 #5 step
 
-# Proj 5 VSIM time: 44400 nm
+# Proj 5 VSIM time: 48000 nm
 	add $11, $30, $zero
         sll $11, $11, 14
         add $4, $0, $zero
@@ -15,10 +15,15 @@ begin:  	mult $4, $4             #algorithm
         	srl $8, $8, 14
         	sll $9, $9, 18
         	add $6, $8, $9          #x^2
-        	sub $6, $6, $11          #subtract
-        	beq $6, $zero, stop     #if equal to zero
+        	bgez $11, subtract
+		srl $16, $6, 1
+		srl $12, $11, 1
+		sub $6, $16, $12
+		j if
+subtract:	sub $6, $6, $11          #subtract
+if:       	beq $6, $zero, stop     #if equal to zero
         	bgez $6, ifg
- 
+ 		
         	add $4, $4, $5          #if less than zero
        		j end
        
